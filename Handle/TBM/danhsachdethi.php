@@ -92,7 +92,19 @@ if(isset($_GET['MaDT'])){
                                         <h4 class="modal-title" id="myModalLabel">Đổi câu hỏi</h4>
                                     </div>
                                     <div class="modal-body">
+                                        <?php
 
+                                        $maCauHoi = $row['MaCH'];
+                                        $doKho = $con->query("SELECT DoKho from cauhoi WHERE cauhoi.MaCH = '$maCauHoi'");
+                                       // echo  $doKho;
+                                        /*$sqlSelectOther = "SELECT cauhoi.MaCH,cauhoi.NoiDung,
+                                      cauhoi.DapAnA, cauhoi.DapAnB, cauhoi.DapAnC, 
+                                      cauhoi.DapAnD, cauhoi.DapAnDung, cauhoi.DoKho 
+                                      FROM cauhoi WHERE cauhoi.MaCH NOT IN(SELECT cauhoi.MaCH FROM cauhoi
+                                       INNER JOIN chitietdethi ON cauhoi.MaCH = chitietdethi.MaCH WHERE
+                                        cauhoi.DoKho = 'Dễ' and cauhoi.MaCH NOT IN ('$maCauHoi'))
+                                         AND cauhoi.DoKho = 'Dễ' and cauhoi.MaCH NOT IN ('$maCauHoi')";*/
+                                        ?>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
