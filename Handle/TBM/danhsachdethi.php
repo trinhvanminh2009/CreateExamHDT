@@ -39,13 +39,18 @@ if(isset($_GET['MaDT'])){
     <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <!-- Social Buttons CSS -->
     <link href="../vendor/bootstrap-social/bootstrap-social.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../dist/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="../dist/css/demo.css" />
+    <link rel="stylesheet" type="text/css" href="../dist/css/component.css" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
 
+    </style>
 </head>
 <body>
 <div id="wrapper">
@@ -79,12 +84,12 @@ if(isset($_GET['MaDT'])){
                     ?>
 
                     <td><!-- Button trigger modal -->
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal<?php echo $a?>">
                             Đổi câu hỏi
                         </button>
 
                         <!-- Modal -->
-                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal fade" id="myModal<?php echo $a?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -94,16 +99,85 @@ if(isset($_GET['MaDT'])){
                                     <div class="modal-body">
                                         <?php
 
-                                        $maCauHoi = $row['MaCH'];
-                                        $doKho = $con->query("SELECT DoKho from cauhoi WHERE cauhoi.MaCH = '$maCauHoi'");
-                                       // echo  $doKho;
-                                        /*$sqlSelectOther = "SELECT cauhoi.MaCH,cauhoi.NoiDung,
+
+                                        $sqlSelectHardLevel = "SELECT DoKho from cauhoi WHERE cauhoi.MaCH = '$a'";
+                                        $tempDoKho = $con->query($sqlSelectHardLevel);
+                                        $hardLevel = $tempDoKho->fetch_assoc();
+                                        $dokho = $hardLevel['DoKho'];
+                                        echo "<h2 style='color: green;'>Các câu hỏi có độ khó $dokho còn lại: </h2> <br>";
+                                        $sqlSelectOther = "SELECT cauhoi.MaCH,cauhoi.NoiDung,
                                       cauhoi.DapAnA, cauhoi.DapAnB, cauhoi.DapAnC, 
                                       cauhoi.DapAnD, cauhoi.DapAnDung, cauhoi.DoKho 
                                       FROM cauhoi WHERE cauhoi.MaCH NOT IN(SELECT cauhoi.MaCH FROM cauhoi
                                        INNER JOIN chitietdethi ON cauhoi.MaCH = chitietdethi.MaCH WHERE
-                                        cauhoi.DoKho = 'Dễ' and cauhoi.MaCH NOT IN ('$maCauHoi'))
-                                         AND cauhoi.DoKho = 'Dễ' and cauhoi.MaCH NOT IN ('$maCauHoi')";*/
+                                        cauhoi.DoKho = '$dokho' and cauhoi.MaCH NOT IN ('$a')
+                                        AND chitietdethi.MaSoDT = '$madt')
+                                         AND cauhoi.DoKho = '$dokho' and cauhoi.MaCH NOT IN ('$a')";
+                                        $resultOtherQuestions = $con->query($sqlSelectOther);
+                                        if($resultOtherQuestions->num_rows >0)
+                                        {
+                                            while ($rowOtherQuestions = $resultOtherQuestions->fetch_assoc())
+                                            {
+
+                                                 echo  $rowOtherQuestions['MaCH']. ": ". $rowOtherQuestions['NoiDung'] ."<br>";
+                                                switch ($rowOtherQuestions['DapAnDung'] )
+                                                {
+                                                    case "DapAnA":
+                                                        echo "<table>";
+                                                         $tempDapAnA = $rowOtherQuestions['DapAnA'];
+                                                          echo "<tr><td style='color: red'> <b>Đáp án A:$tempDapAnA</b><br></td></tr>" ;
+                                                        echo "<tr><td>Đáp án B:". $rowOtherQuestions['DapAnB']."<br></td></tr>";
+                                                        echo "<tr><td>Đáp án C:". $rowOtherQuestions['DapAnC']."<br></td></tr>";
+                                                        echo "<tr><td>Đáp án D:". $rowOtherQuestions['DapAnD']."</td></tr>";
+                                                        echo "<tr><td>Chọn câu này ?<input type='checkbox'></td></tr>";
+                                                        echo "</table>";
+
+                                                        break;
+                                                    case "DapAnB":
+                                                        echo "<table>";
+                                                        $tempDapAnB = $rowOtherQuestions['DapAnA'];
+                                                        echo "<tr><td>Đáp án A:". $rowOtherQuestions['DapAnA']."<br></td></tr>";
+                                                        echo "<tr><td  style='color: red'>Đáp án B: <b>$tempDapAnB</b><br></td></tr>" ;
+                                                        echo "<tr><td>Đáp án C:". $rowOtherQuestions['DapAnC']."<br></td></tr>";
+                                                        echo "<tr><td>Đáp án D:". $rowOtherQuestions['DapAnD']."<br></td></tr>";
+                                                        echo "</table>";
+
+                                                        break;
+                                                    case "DapAnC":
+                                                        echo "<table>";
+                                                        $tempDapAnC = $rowOtherQuestions['DapAnC'];
+                                                        echo "<tr><td>Đáp án A:". $rowOtherQuestions['DapAnA']."<br></td></tr>";
+                                                        echo "<tr><td>Đáp án B:". $rowOtherQuestions['DapAnB']."<br></td></tr>";
+                                                        echo "<tr><td  style='color: red'>Đáp án C: <b>$tempDapAnC</b><br></td></tr>" ;
+                                                        echo "<tr><td>Đáp án D:". $rowOtherQuestions['DapAnD']."<br></td></tr>";
+                                                        echo "</table>";
+                                                        break;
+                                                    case "DapAnD":
+                                                        echo "<table>";
+                                                        $tempDapAnD = $rowOtherQuestions['DapAnD'];
+                                                        echo "<tr><td>Đáp án A:". $rowOtherQuestions['DapAnA']."<br></td></tr>";
+                                                        echo "<tr><td>Đáp án B:". $rowOtherQuestions['DapAnB']."<br></td></tr>";
+                                                        echo "<tr><td>Đáp án C:". $rowOtherQuestions['DapAnC']."<br></td></tr>";
+                                                        echo "<tr><td  style='color: red'>Đáp án D: <b>$tempDapAnD</b><br></td></tr>" ;
+
+                                                        echo "</table>";
+                                                        break;
+
+
+                                                }
+                                                echo "<br> <br>";
+
+
+
+
+
+
+                                            }
+                                        }
+                                        else
+                                        {
+                                            echo "<b style='color: red'>Không còn câu hỏi khác để thay đổi cho câu hỏi này !</b>";
+                                        }
                                         ?>
                                     </div>
                                     <div class="modal-footer">
@@ -131,6 +205,8 @@ if(isset($_GET['MaDT'])){
                          </form>
                         ";
                 ?>
+
+
             </div>
         </div>
     </div>
@@ -141,7 +217,11 @@ if(isset($_GET['MaDT'])){
 <?php mysqli_close($con);?>
 <!-- jQuery -->
 <script src="../vendor/jquery/jquery.min.js"></script>
-
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="popover"]').popover();
+    });
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
 
@@ -153,6 +233,7 @@ if(isset($_GET['MaDT'])){
 <script src="../data/morris-data.js"></script>
 
 <!-- Custom Theme JavaScript -->
+
 <script src="../dist/js/sb-admin-2.js"></script>
 <script src="../js/popup.js"></script>
 </body>
