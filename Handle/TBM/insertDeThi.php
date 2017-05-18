@@ -8,8 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <link rel="icon" type="image/png" href="../../img/Create%20New-24.png">
+    <title>Create Exam</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -38,6 +38,8 @@
     $password = "";
     $dbname = "create_exam";
 
+
+
     if(isset($_GET['macauhoi'])) {
 
         $masodt=$_GET['masodt'];
@@ -52,12 +54,9 @@
             VALUES ('$MaSoDT','$macauhoi')";
 
             // use exec() because no results are returned
-          $conn->query($sql);
+            $conn->query($sql);
         }
-
-        header("location:../TBM/index.php");
-
-
+        header("location:../TBM/danhsachdethi.php?MaDT=$MaSoDT");
     }
 ?>
 <body>
@@ -115,7 +114,7 @@ if(isset($_POST['hocphanID'])||isset($_POST['tbmid'])) {
                                 <th>#</th>
                                 <th>Nội Dung</th>
                                 <th>Độ khó</th>
-                                <th></th>
+                                
                                 <th>Chức năng</th>
                            </tr>
                     </thead>       

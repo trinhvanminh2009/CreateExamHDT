@@ -39,7 +39,9 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Tạo đề thi</title>
+    <link rel="icon" type="image/png" href="../../img/Create%20New-24.png">
+    <title>Create Exam</title>
+
 
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">

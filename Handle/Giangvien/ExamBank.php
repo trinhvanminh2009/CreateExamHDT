@@ -6,8 +6,13 @@
  * Time: 3:31 PM
  */
 session_start();
-$maGiangVien=$_SESSION['email'];
-$con=mysqli_connect("localhost","root","","create_exam");
+if(isset($_SESSION['email']))
+{
+    $maGiangVien=$_SESSION['email'];
+}
+else{
+    header("Location:../Login/index.php");
+}$con=mysqli_connect("localhost","root","","create_exam");
 mysqli_set_charset($con, "utf8");
 if (mysqli_connect_errno())
 {
@@ -33,7 +38,9 @@ if(isset($_POST['hocky'])) {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Tạo đề thi</title>
+    <link rel="icon" type="image/png" href="../../img/Create%20New-24.png">
+    <title>Create Exam</title>
+
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -84,7 +91,7 @@ if(isset($_POST['hocky'])) {
                     <li><a href="#"><i class="fa fa-user fa-fw"></i> <?php echo $maGiangVien ?></a>
                     </li>
                     <li class="divider"></li>
-                    <li><a href="../Login/index.php"><i class="fa fa-sign-out fa-fw"></i> Đăng Xuất</a>
+                    <li><a href="handleSession.php"><i class="fa fa-sign-out fa-fw"></i> Đăng Xuất</a>
                     </li>
                 </ul>
                 <!-- /.dropdown-user -->

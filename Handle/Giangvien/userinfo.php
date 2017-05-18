@@ -8,11 +8,14 @@
  * Date: 3/24/2017
  * Time: 2:57 PM
  */
-
-
-
     session_start();
-    $magiangvien=$_SESSION['email'];
+    if(isset($_SESSION['email']))
+    {
+        $magiangvien=$_SESSION['email'];
+    }
+    else{
+        header("Location:../Login/index.php");
+    }
     $user='root';
     $pass='';
     $db='create_exam';
@@ -47,7 +50,9 @@ $result = mysqli_query($con,"SELECT * FROM giangvien WHERE MaGiangVien='$magiang
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Thông tin giảng viên</title>
+    <link rel="icon" type="image/png" href="../../img/Create%20New-24.png">
+    <title>Create Exam</title>
+
 
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">

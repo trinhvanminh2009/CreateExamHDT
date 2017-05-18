@@ -5,8 +5,15 @@
 
     }
     else{
-        $tbmID=$_SESSION['emailTBM'];
+        if(isset($_SESSION['emailTBM']))
+        {
+            $tbmID=$_SESSION['emailTBM'];
+        }
+        else{
+            header("Location:../Login/index.php");
+        }
     }
+
 
 
 
@@ -34,7 +41,7 @@
                 </li>
 
                 <li class="divider"></li>
-                <li><a href="../Login/index.php"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                <li><a href="handleSession.php" "><i class="fa fa-sign-out fa-fw"></i> Logout </a>
                 </li>
             </ul>
             <!-- /.dropdown-user -->

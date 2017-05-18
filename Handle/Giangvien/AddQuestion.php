@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="icon" type="image/png" href="../../img/Create%20New-24.png">
+    <title>Create Exam</title>
+
 </head>
 <body>
 

@@ -9,7 +9,9 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <link rel="icon" type="image/png" href="../../img/Create%20New-24.png">
     <title>Create Exam</title>
+
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -86,6 +88,9 @@ session_start();
        mysqli_set_charset($conn, "utf8");
        $result = $conn->query($sql);
 
+   }
+   else{
+       header("Location:../Login/index.php");
    }
 ?>
 <div id="wrapper">

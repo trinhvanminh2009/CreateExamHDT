@@ -9,7 +9,9 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Thông tin đề thi</title>
+    <link rel="icon" type="image/png" href="../../img/Create%20New-24.png">
+    <title>Create Exam</title>
+
 
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -51,6 +53,45 @@
                                             <?php
                                             $hocphanId=$_GET['hocphanID'];
                                             echo "<input class='form-control' id='disabledInput' name='hocphanID' type='text' value='".$hocphanId."'' >";
+                                            $con=mysqli_connect("localhost","root","","create_exam");
+                                            mysqli_set_charset($con,"utf8");
+                                            if (mysqli_connect_errno())
+                                            {
+                                                echo "Failed to connect to MySQL: " . mysqli_connect_error();
+                                            }
+                                            $sqlRatDe = "select * from cauhoi where MaHocPhan = '$hocphanId' and DoKho = 'Rất Dễ'";
+                                            $sqlDe = "select * from cauhoi where MaHocPhan = '$hocphanId' and DoKho = 'Dễ'";
+                                            $sqlTrungBinh = "select * from cauhoi where MaHocPhan = '$hocphanId' and DoKho = 'Trung Bình'";
+                                            $sqlKho = "select * from cauhoi where MaHocPhan = '$hocphanId' and DoKho = 'Khó'";
+                                            $sqlRatKho = "select * from cauhoi where MaHocPhan = '$hocphanId' and DoKho = 'Rất Khó'";
+                                            //-------Số câu hỏi rất dễ-----------
+                                            $resultRatDe = $con->query($sqlRatDe);
+                                            $numRatDe = $resultRatDe->num_rows;
+
+                                            //-------Số câu hỏi dễ-----------
+                                            $resultDe = $con->query($sqlDe);
+                                            $numDe = $resultDe->num_rows;
+
+
+                                            //-------Số câu hỏi Trung bình-----------
+                                            $resultTrungBinh = $con->query($sqlTrungBinh);
+                                            $numTrungBinh = $resultTrungBinh->num_rows;
+
+
+                                            //-------Số câu hỏi Khó-----------
+                                            $resultKho = $con->query($sqlKho);
+                                            $numKho = $resultKho->num_rows;
+
+
+                                            //-------Số câu hỏi Rất Khó-----------
+                                            $resultRatKho = $con->query($sqlRatKho);
+                                            $numRatKho = $resultRatKho->num_rows;
+
+
+
+
+
+
                                             ?>
                                         </div>
                                         <div class="form-group">
@@ -75,26 +116,26 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Số câu hỏi rất dễ: </label>
-                                            <input type="number" class="form-control" id="schrd" name="schrd" min="0" placeholder="Nhập vào số" value="3">
+                                            <input type="number" class="form-control" id="schrd" name="schrd" min="0"  max="<?php echo $numRatDe; ?>" placeholder="Nhập vào số" value="3">
                                         </div>
                                         <div class="form-group">
                                             <label>Số câu hỏi dễ: </label>
-                                            <input type="number" class="form-control" id="schd" name="schd" min="0" placeholder="Nhập vào số" value="25">
+                                            <input type="number" class="form-control" id="schd" name="schd" min="0"  max="<?php echo $numDe; ?>" placeholder="Nhập vào số" value="25">
                                         </div>
                                         <div class="form-group">
                                             <label>Số câu hỏi trung bình: </label>
-                                            <input class="form-control" type="number" id="schtb" name="schtb" min="0" placeholder="Nhập vào số" value="7" >
+                                            <input class="form-control" type="number" id="schtb" name="schtb" min="0"  max="<?php echo $numTrungBinh; ?>" placeholder="Nhập vào số" value="7" >
                                         </div>
                                         <div class="form-group">
                                             <label>Số câu hỏi khó: </label>
-                                            <input class="form-control" type="number" id="schk" name="schk" min="0"placeholder="Nhập vào số" value="3">
+                                            <input class="form-control" type="number" id="schk" name="schk" min="0"  max="<?php echo $numKho; ?>" placeholder="Nhập vào số" value="3">
                                         </div>
                                         <div class="form-group">
                                             <label>Số câu hỏi rất khó: </label>
-                                            <input class="form-control" type="number" id ="schrk" name="schrk" min="0" placeholder="Nhập vào số" value="2">
+                                            <input class="form-control" type="number" id ="schrk" name="schrk" min="0"  max="<?php echo $numRatKho; ?>" placeholder="Nhập vào số" value="2">
                                         </div>
-                                        <button type="submit" class="btn btn-default">Tiếp tục</button>
-                                        <button type="reset" class="btn btn-default">Reset</button>
+                                        <button type="submit" class="btn btn-primary">Tiếp tục</button>
+                                        <button type="reset" class="btn btn-danger">Hủy</button>
                                     </form>
                                 </div>
                     <!-- /.row -->

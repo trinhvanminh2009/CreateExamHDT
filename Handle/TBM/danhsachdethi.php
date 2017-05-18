@@ -1,4 +1,5 @@
 <?php
+
 if(isset($_GET['MaDT'])){
     $madt=$_GET['MaDT'];
 
@@ -24,7 +25,9 @@ if(isset($_GET['MaDT'])){
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Chi tiết đề thi</title>
+    <link rel="icon" type="image/png" href="../../img/Create%20New-24.png">
+    <title>Create Exam</title>
+
 
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -42,6 +45,7 @@ if(isset($_GET['MaDT'])){
     <link rel="stylesheet" type="text/css" href="../dist/css/normalize.css" />
     <link rel="stylesheet" type="text/css" href="../dist/css/demo.css" />
     <link rel="stylesheet" type="text/css" href="../dist/css/component.css" />
+    <link rel="stylesheet" type="text/css" href="../dist/css/checkBox.css" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -98,13 +102,11 @@ if(isset($_GET['MaDT'])){
                                     </div>
                                     <div class="modal-body">
                                         <?php
-
-
                                         $sqlSelectHardLevel = "SELECT DoKho from cauhoi WHERE cauhoi.MaCH = '$a'";
                                         $tempDoKho = $con->query($sqlSelectHardLevel);
                                         $hardLevel = $tempDoKho->fetch_assoc();
                                         $dokho = $hardLevel['DoKho'];
-                                        echo "<h2 style='color: green;'>Các câu hỏi có độ khó $dokho còn lại: </h2> <br>";
+                                        echo "<h2 style='color: green;'>Các câu hỏi có độ khó ($dokho) còn lại: </h2> <br>";
                                         $sqlSelectOther = "SELECT cauhoi.MaCH,cauhoi.NoiDung,
                                       cauhoi.DapAnA, cauhoi.DapAnB, cauhoi.DapAnC, 
                                       cauhoi.DapAnD, cauhoi.DapAnDung, cauhoi.DoKho 
@@ -118,8 +120,10 @@ if(isset($_GET['MaDT'])){
                                         {
                                             while ($rowOtherQuestions = $resultOtherQuestions->fetch_assoc())
                                             {
-
+                                                echo "<form action='HandleChangeQuestion.php' method='post'>";
+                                                $maCauHoi = $rowOtherQuestions['MaCH'];
                                                  echo  $rowOtherQuestions['MaCH']. ": ". $rowOtherQuestions['NoiDung'] ."<br>";
+                                                echo "<input type='hidden' value='$madt' name='codeExam'>";
                                                 switch ($rowOtherQuestions['DapAnDung'] )
                                                 {
                                                     case "DapAnA":
@@ -129,9 +133,10 @@ if(isset($_GET['MaDT'])){
                                                         echo "<tr><td>Đáp án B:". $rowOtherQuestions['DapAnB']."<br></td></tr>";
                                                         echo "<tr><td>Đáp án C:". $rowOtherQuestions['DapAnC']."<br></td></tr>";
                                                         echo "<tr><td>Đáp án D:". $rowOtherQuestions['DapAnD']."</td></tr>";
-                                                        echo "<tr><td>Chọn câu này ?<input type='checkbox'></td></tr>";
+                                                        echo "<input type='hidden' name ='txtNewQuestion' value='$maCauHoi'>";
+                                                        echo "<input type='hidden' name='txtOldQuestion' value='$a'>'";
+                                                        echo "<tr><td><button type='submit' class='btn btn-danger'>Thay bằng câu hỏi $maCauHoi</button> </td></tr>";
                                                         echo "</table>";
-
                                                         break;
                                                     case "DapAnB":
                                                         echo "<table>";
@@ -140,6 +145,10 @@ if(isset($_GET['MaDT'])){
                                                         echo "<tr><td  style='color: red'>Đáp án B: <b>$tempDapAnB</b><br></td></tr>" ;
                                                         echo "<tr><td>Đáp án C:". $rowOtherQuestions['DapAnC']."<br></td></tr>";
                                                         echo "<tr><td>Đáp án D:". $rowOtherQuestions['DapAnD']."<br></td></tr>";
+                                                        echo "<input type='hidden' name ='txtNewQuestion' value='$maCauHoi'>";
+                                                        echo "<input type='hidden' name='txtOldQuestion' value='$a'>'";
+                                                        echo "<tr><td><button type='submit' class='btn btn-danger'>Thay bằng câu hỏi $maCauHoi</button> </td></tr>";
+
                                                         echo "</table>";
 
                                                         break;
@@ -150,6 +159,10 @@ if(isset($_GET['MaDT'])){
                                                         echo "<tr><td>Đáp án B:". $rowOtherQuestions['DapAnB']."<br></td></tr>";
                                                         echo "<tr><td  style='color: red'>Đáp án C: <b>$tempDapAnC</b><br></td></tr>" ;
                                                         echo "<tr><td>Đáp án D:". $rowOtherQuestions['DapAnD']."<br></td></tr>";
+                                                        echo "<input type='hidden' name ='txtNewQuestion' value='$maCauHoi'>";
+                                                        echo "<input type='hidden' name='txtOldQuestion' value='$a'>'";
+                                                        echo "<tr><td><button type='submit' class='btn btn-danger'>Thay bằng câu hỏi $maCauHoi</button> </td></tr>";
+
                                                         echo "</table>";
                                                         break;
                                                     case "DapAnD":
@@ -159,6 +172,9 @@ if(isset($_GET['MaDT'])){
                                                         echo "<tr><td>Đáp án B:". $rowOtherQuestions['DapAnB']."<br></td></tr>";
                                                         echo "<tr><td>Đáp án C:". $rowOtherQuestions['DapAnC']."<br></td></tr>";
                                                         echo "<tr><td  style='color: red'>Đáp án D: <b>$tempDapAnD</b><br></td></tr>" ;
+                                                        echo "<input type='hidden' name ='txtNewQuestion' value='$maCauHoi'>";
+                                                        echo "<input type='hidden' name='txtOldQuestion' value='$a'>'";
+                                                        echo "<tr><td><button type='submit' class='btn btn-danger'>Thay bằng câu hỏi $maCauHoi</button> </td></tr>";
 
                                                         echo "</table>";
                                                         break;
@@ -169,8 +185,7 @@ if(isset($_GET['MaDT'])){
 
 
 
-
-
+                                                echo "</form>";
 
                                             }
                                         }
@@ -180,10 +195,7 @@ if(isset($_GET['MaDT'])){
                                         }
                                         ?>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
-                                        <button type="button" class="btn btn-primary">Thay đổi</button>
-                                    </div>
+
                                 </div>
                             </div>
                         </div></td>

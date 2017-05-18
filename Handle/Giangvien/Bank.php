@@ -1,6 +1,13 @@
 <?php
 session_start();
-$maGiangVien=$_SESSION['email'];
+if(isset($_SESSION['email']))
+{
+    $maGiangVien=$_SESSION['email'];
+}
+else{
+    header("Location:../Login/index.php");
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
@@ -13,7 +20,9 @@ $maGiangVien=$_SESSION['email'];
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <link rel="icon" type="image/png" href="../../img/Create%20New-24.png">
     <title>Create Exam</title>
+
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -668,7 +677,7 @@ function loadAll()
                     <li><a href="#"><i class="fa fa-user fa-fw"></i> <?php echo $maGiangVien ?></a>
                     </li>
                     <li class="divider"></li>
-                    <li><a href="..//Login/index.php"><i class="fa fa-sign-out fa-fw"></i> Đăng Xuất</a>
+                    <li><a href="handleSession.php"><i class="fa fa-sign-out fa-fw"></i> Đăng Xuất</a>
                     </li>
                 </ul>
                 <!-- /.dropdown-user -->
